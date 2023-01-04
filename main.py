@@ -65,7 +65,7 @@ for i in range(len(route_info)):
 route_df['distance']= dist
 route_df['cumul_dist']= route_df['distance'].cumsum()
 route_df['cum_elevation'] = route_df['elevation_diff'].cumsum()
-print(route_df)
+#print(route_df)
 
 #Wysokości elipsoidalne
 fig = px.line(x=route_df['cumul_dist'],y=route_df['elevation'], title= 'Wysokości elipsoidalne')
@@ -91,7 +91,7 @@ folium.PolyLine(coordinates, weight=6, color='pink').add_to(route_map)
 
 #display(route_map)
 
-#Gradacja
+
 gradients = [np.nan]
 
 for ind, row in route_df.iterrows():
@@ -108,10 +108,7 @@ for ind, row in route_df.iterrows():
 route_df['gradient'] = gradients
 route_df['gradient'] = route_df['gradient'].interpolate().fillna(0)
 
-# plt.title('Pochyłość na trasie', size=20)
-# plt.xlabel('Punkt trasy', size=14)
-# plt.ylabel('Pochyłość (%)', size=14)
-# plt.plot(np.arange(len(route_df)), route_df['gradient'], lw=2, color='#101010')
+
 
 
 fig1 = px.line(x=np.arange(len(route_df)),y=route_df['gradient'], title= 'Nachylenie terenu na trasie')
@@ -169,34 +166,6 @@ fig3.update_layout(xaxis_title='Suma odległości od początku trasy', yaxis_tit
 #fig3.show()
 
 
-# model= np.genfromtxt('C:/Users/01169793/Desktop/Model_quasi-geoidy-PL-geoid2021-PL-EVRF2007-NH.txt',skip_header=True)
-#
-# #wysokości normalne
-#
-# x= model[:,0]
-# y=model[:,1]
-# z=model[:,2]
-#
-#
-# x_grid= x.reshape((len(np.unique(x))),-1)
-# y_grid = y.reshape((len(np.unique(y))),-1)
-# z_grid = z.reshape((len(np.unique(z))),-1)
-#
-#
-# x_range= x_grid[:,0]
-# y_range= y_grid[0,:]
-# zeta_all = []
-#
-#
-# for i in range(len(route_df)):
-#     fi= route_df.iloc[i]['latitude']
-#     lam= route_df.iloc[i]['longtitude']
-#     zeta= interpn((x_range,y_range),z_grid,(fi,lam))
-#     zeta_all.append(float(zeta))
-#
-# route_df['normal']= route_df['elevation'] - np.array(zeta_all)
-# fig = px.line(x=route_df['cumul_dist'],y=route_df['normal'])
-# fig.show()
 
 app = dash.Dash()
 app.layout = html.Div(children=[
