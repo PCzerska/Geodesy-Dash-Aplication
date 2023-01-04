@@ -132,7 +132,7 @@ fig2.update_layout(mapbox_style="open-street-map")
 fig2.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
 # fig2.show()
 
-# wczytanie modelu geoidy
+#Geoida
 
 model= np.genfromtxt('Model_quasi-geoidy-PL-geoid2021-PL-EVRF2007-NH.txt',skip_header=True)
 
@@ -148,7 +148,7 @@ z_grid = z.reshape((len(np.unique(x)), -1))
 x_range = x_grid[:, 0]
 y_range = y_grid[0, :]
 
-# interpolacja każdego punktu trasy, aby otrzymać zeta w danym punkcie trasy
+#Interpolacja
 zeta_all = []
 for i in range(len(route_df)):
     fi = route_df.iloc[i]['latitude']
@@ -156,7 +156,7 @@ for i in range(len(route_df)):
     zeta = interpn((x_range, y_range), z_grid, (fi, lam))
     zeta_all.append(float(zeta))
 
-# nowa kolumna z wysokościami normalmnymi
+#Wysokości normalne
 route_df['normal'] = route_df['elevation'] - np.array(zeta_all)
 
 fig3 = px.line(x=route_df['cumul_dist'],y=route_df['normal'],title= 'Wysokości normalne')
@@ -165,7 +165,7 @@ fig3.update_layout(title_x=0.5, titlefont=dict(family='Courier New, monospace', 
 fig3.update_layout(xaxis_title='Suma odległości od początku trasy', yaxis_title='Wysokości normalne', plot_bgcolor='#FFF5EE')
 #fig3.show()
 
-
+#Aplikacja
 
 app = dash.Dash()
 app.layout = html.Div(children=[
